@@ -1,0 +1,21 @@
+.ml-auto{
+    margin-left: auto;
+}
+.font-black{
+    color: black;
+}
+.navbar .navbar-brand{
+    font-weight: bolder;
+}
+.right-border{
+  border-right: 1px solid #000;
+}
+.p-r-15{
+    padding-right: 15px;
+}
+.h-25-i{
+    height: 25px !important;
+}
+.p-t-5{
+    padding-top: 5px;
+}

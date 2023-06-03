@@ -1,0 +1,37 @@
+/* You can add global styles to this file, and also import other style files */
+@import ".\\node_modules\\ngx-toastr\\toastr.css";
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    font-family: 'Ubuntu', sans-serif;
+    overflow-x: hidden;
+}
+/* TOASTR BUGFIX */
+#toast-container > div {
+  opacity: 1;
+  position: fixed;
+  font-family: FontAwesome;
+  right: 0;
+  bottom: 0;
+  color: #FFF;
+}
+.toast {
+  font-size: initial !important;
+  border: initial !important;
+  backdrop-filter: blur(0) !important;
+}
+.toast-success {
+  background-color: #51A351 !important;
+}
+.toast-error {
+  background-color: #BD362F !important;
+}
+.toast-info {
+  background-color: #2F96B4 !important;
+}
+.toast-warning {
+  background-color: #F89406 !important;
+}
