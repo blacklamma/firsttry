@@ -1,0 +1,57 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+    <h3 class="pl-10">
+        List of Users
+        <button matTooltip="Add User" matTooltipPosition="below" class="btn btn-outline-success float-right" (click)="addUser()">
+            <i class="fa fa-plus"></i>
+        </button>
+    </h3>
+            
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Last Login</th>
+          <th>Active</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="
+            let post of userData
+              | paginate
+                : {
+                    itemsPerPage: tableSize,
+                    currentPage: page,
+                    totalItems: count
+                  };
+            let i = index
+          "
+        >
+          <th scope="row"><a href="user/edit/{{post.id}}" class="grid-nav"><span class="">{{ post.username }}</span></a></th>
+          <td>{{ post.first_name }}</td>
+          <td>{{ post.last_name }}</td>
+          <td>{{ post.email }}</td>
+          <td>{{ post.last_login }}</td>
+          <td>{{ post.is_active_str }}</td>
+          <td>
+            <mat-icon matTooltip="Delete User" matTooltipPosition="below" aria-hidden="false" aria-label="Delete User" 
+            class="text-danger fs-20 p-t-2" fontIcon="delete" (click)="deleteUserConfirm(post)"></mat-icon>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-center">
+      <pagination-controls
+        previousLabel="Prev"
+        nextLabel="Next"
+        (pageChange)="onTableDataChange($event)"
+      >
+      </pagination-controls>
+    </div>
+  </div>

@@ -1,8 +1,14 @@
 from django.urls import path
-from django.views.decorators.csrf import csrf_exempt
-from . import views
+from rest_framework import routers
+from .views import *
+
+router = routers.SimpleRouter()
+router.register('users', UserView)
+
 
 urlpatterns = [
-    path('login/', csrf_exempt(views.loginPage), name="login"),
-    path('logout/', csrf_exempt(views.logoutPage), name="logout"),
+    path('login/', login_page, name="login"),
+    path('logout/', logout_page, name="logout"),
 ]
+
+urlpatterns += router.urls

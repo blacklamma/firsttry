@@ -4,7 +4,16 @@
     margin: 0;
     padding: 0;
 }
-
+a.grid-nav:link, a.grid-nav:visited {
+  color: green;
+  text-decoration: none;
+}
+a.nav-link:hover{
+  font-weight: 600;
+}
+.container{
+  padding-top:80px;
+}
 body{
     font-family: 'Ubuntu', sans-serif;
     overflow-x: hidden;
@@ -34,4 +43,37 @@ body{
 }
 .toast-warning {
   background-color: #F89406 !important;
+}
+.pl-10{
+  padding-left: 10px;
+}
+.pr-10{
+  padding-right: 10px;
+}
+.float-right{
+  float: right;
+}
+.pt-35{
+  padding-top: 35px;
+}
+.mt-10{
+  margin-top: 10px;
+}
+.ml-5{
+  margin-left: 5px;
+}
+.pl-75-imp{
+  padding-left: 75px !important;
+}
+.footer-buttons{
+  position: absolute;
+  right: 20px;
+  bottom: 55px;
+  transform: translate(0, 100%);
+}
+.fs-20{
+  font-size: 20px;
+}
+.p-t-2{
+  padding-top: 2px;
 }

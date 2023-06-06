@@ -22,14 +22,23 @@ export class LoginComponent implements OnInit {
     })
   }
   logIn(){
-    this.http.post('http://localhost:8000/user/login/', this.loginForm.value, {responseType: 'text'})
+    this.http.post('http://localhost:8000/user/login/', this.loginForm.value)
     .subscribe(
-      (resData) => {
+      (resData: any) => {
         console.log(resData)
-        localStorage.setItem('username', this.loginForm.value.username);
-        this.loginForm.reset();
-        this.toastr.success('Logged In!', 'Success!');
-        this.router.navigate(['/home']);      
+        localStorage.setItem('avatar', resData.profile_image);
+        localStorage.setItem('userId', resData.user_id);
+        
+        this.http.post('http://localhost:8000/api/token/', this.loginForm.value)
+        .subscribe(
+          (data: any) => {
+            localStorage.setItem('username', this.loginForm.value.username);
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('_authToken', data.access);
+            this.loginForm.reset();
+            this.toastr.success(resData.msg, 'Success!');
+            this.router.navigate(['/home']);  
+          })
       }
     )
   }

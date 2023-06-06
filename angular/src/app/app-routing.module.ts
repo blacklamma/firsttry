@@ -2,11 +2,24 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './login/login.component';
+import { TicketComponent } from './pages/ticket/ticket.component';
+import { UserComponent } from './pages/user/user.component';
+import { UseraddComponent } from './pages/user/useradd.component';
+import { MyProfileComponent } from './pages/user/myprofile.component';
 
 const routes: Routes = [
-  {path: '', redirectTo:'login', pathMatch:'full'},
-  {path: 'login', component: LoginComponent},
-  {path: 'home', component: HomeComponent},
+  { path: '', redirectTo:'login', pathMatch:'full'},
+  { path: 'login', component: LoginComponent},
+  { path: 'home', component: HomeComponent},
+
+  // tickets
+  { path: 'ticket', component: TicketComponent},
+  
+  // user
+  { path: 'user', component: UserComponent},
+  { path: 'user/add', component: UseraddComponent},
+  { path: 'user/edit/:id', component: UseraddComponent},
+  { path: 'myprofile', component: MyProfileComponent},
 ];
 
 @NgModule({

@@ -11,13 +11,15 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class NavbarComponent {
 
+  profilePictureData = '';
   public logOutForm !: FormGroup;
   constructor(private formBuilder : FormBuilder, private http: HttpClient, private router: Router, private toastr: ToastrService){}
   ngOnInit(): void{
     this.logOutForm = this.formBuilder.group({
       username: [''],
       password: ['']
-    })
+    });
+    this.profilePictureData = localStorage.getItem('avatar') || '';
   }
   logOut(){
     this.http.post('http://localhost:8000/user/logout/', {username: localStorage.getItem('username')}, {responseType: 'text'})
@@ -25,7 +27,8 @@ export class NavbarComponent {
       (resData) => {
         console.log(resData)
         localStorage.setItem('username', '');
-        this.toastr.success('Logged Out!', 'Success!');
+        localStorage.setItem('isLoggedIn', 'false');
+        this.toastr.success('Logged Out!', resData);
         this.router.navigate(['']);
       }
     )

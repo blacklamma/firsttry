@@ -1,0 +1,43 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <h3 class="pl-10">
+      List of Tickets
+      <!-- <button matTooltip="Add Ticket" matTooltipPosition="below" class="btn btn-outline-success float-right" (click)="addTicket()"> -->
+        <button matTooltip="Add Ticket" matTooltipPosition="below" class="btn btn-outline-success float-right">
+          <i class="fa fa-plus"></i>
+      </button>
+  </h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Summary</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="
+            let post of ticketData
+              | paginate
+                : {
+                    itemsPerPage: tableSize,
+                    currentPage: page,
+                    totalItems: count
+                  };
+            let i = index
+          "
+        >
+          <th scope="row">{{ post.display_id }}</th>
+          <td>{{ post.summary }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-center">
+      <pagination-controls
+        previousLabel="Prev"
+        nextLabel="Next"
+        (pageChange)="onTableDataChange($event)"
+      >
+      </pagination-controls>
+    </div>
+  </div>

@@ -1,39 +1,45 @@
 <!-- navbar start -->
 <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
     <div class="container-fluid">
-      <a class="navbar-brand right-border p-r-15" href="#">Techniche 
-      </a>
+      <span class="navbar-brand right-border p-r-15" href="home">Techniche 
+      </span>
       <!-- <a class="navbar-brand" href="#">
         <img src="https://www.technicheindia.com/assets/images/logo.png" alt="Logo" width="140" height="30">
       </a> -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler me-auto mb-2 mb-lg-0 mt-10" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="tickets">Tickets</a>
+            <a class="nav-link" aria-current="page" href="ticket">Tickets</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="assets">Assets</a>
+            <a class="nav-link" aria-current="page" href="assets">Assets</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="tasks">Tasks</a>
+            <a class="nav-link" aria-current="page" href="tasks">Tasks</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="customers">Customers</a>
+            <a class="nav-link" aria-current="page" href="reports">Reports</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="reports">Reports</a>
+            <a class="nav-link" aria-current="page" href="attendance">Attendance</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Users
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="nav-link dropdown-item" href="user">Users</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="nav-link dropdown-item" href="customer">Customers</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="nav-link dropdown-item" href="role">Roles</a></li>
+            </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="attendance">Attendance</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="users">Users</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="siteconfig">Config</a>
+            <a class="nav-link" aria-current="page" href="siteconfig">Config</a>
           </li>
           <!-- <li class="nav-item">
             <a class="nav-link" href="#">Link</a>
@@ -54,8 +60,14 @@
           </li> -->
         </ul>
       </div>
+      <a class="pr-10" href="myprofile">
+        <img *ngIf="!profilePictureData" src="/assets/placeholder-avatar.jpg"
+        class="rounded-circle" alt="example placeholder" style="width: 40px;" />
+        <img *ngIf="profilePictureData" [src]="profilePictureData"
+        class="rounded-circle" alt="example placeholder" style="width: 40px;" />
+      </a>
       <form [formGroup]="logOutForm" class="d-flex" role="logOut" (ngSubmit)="logOut()">
-        <button class="btn btn-outline-success" type="submit">Log Out</button>
+        <button class="btn btn-outline-danger" type="submit">Log Out</button>
       </form>
       <!-- <button (ngClick)="logOut()" class="badge bg-secondary btn btn-black">Log Out</button> -->
       <!-- <a ><span (ngClick)="logOut()" class="badge bg-secondary h-25-i p-t-5">Log Out</span></a> -->
