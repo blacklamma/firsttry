@@ -28,6 +28,9 @@ export class LoginComponent implements OnInit {
         console.log(resData)
         localStorage.setItem('avatar', resData.profile_image);
         localStorage.setItem('userId', resData.user_id);
+        localStorage.setItem('custId', resData.cust_id);
+        localStorage.setItem('isStaff', resData.is_staff);
+        localStorage.setItem('permissions', JSON.stringify(resData.permissions));
         
         this.http.post('http://localhost:8000/api/token/', this.loginForm.value)
         .subscribe(

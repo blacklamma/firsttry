@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UserService } from './user.service';
+import { CustomerService } from './customer.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormGroup, FormBuilder, ReactiveFormsModule, FormControl, Validators } from '@angular/forms';
@@ -7,82 +7,64 @@ import { Location } from '@angular/common';
 import { ConfirmPasswordValidator } from '../../confirm-password.validator';
 
 @Component({
-  selector: 'app-useradd',
-  templateUrl: './useradd.component.html',
-  styleUrls: ['./user.component.css']
+  selector: 'app-customerform',
+  templateUrl: './customerform.component.html',
+  styleUrls: ['./customer.component.css']
 })
-export class UseraddComponent {
+export class CustomerformComponent {
   
   id: any;
 	avatarUrl: any;
   avatarMsg = "";
   event = 'add';
-  roleOptions = [{'name': 'Manager', 'id': 1}];
-  public userData !: FormGroup;
-  constructor(private formBuilder : FormBuilder, private userService: UserService, private route: ActivatedRoute, private toastr: ToastrService, private location: Location, private router: Router) {}
+  public customerData !: FormGroup;
+  constructor(private formBuilder : FormBuilder, private customerService: CustomerService, private route: ActivatedRoute, private toastr: ToastrService, private location: Location, private router: Router) {}
 
   ngOnInit(): void{
     this.id = this.route.snapshot.paramMap.get('id');
-    this.userData = this.formBuilder.group({
+    this.customerData = this.formBuilder.group({
       id: [''],
-      username: ['', Validators.required],
       email: ['', Validators.required],
-      first_name: ['', Validators.required],
-      last_name: [''],
-      is_active: [false],
+      customer_name: ['', Validators.required],
       avatarUrl: [''],
-      password: ["", Validators.required],
-      confirmPassword: ["", Validators.required],
-      department: [''],
-      designation: [''],
+      password: [""],
+      confirmPassword: [""],
       contact_number: [''],
-      role_id: [''],
+      login_enabled: [false],
+      username: [''],
+      is_active: [false],
     },
     {
       validator: ConfirmPasswordValidator("password", "confirmPassword")
     });
     if(this.id){
       this.event = 'edit';
-      this.userService.getUser(this.id).subscribe(
+      this.customerService.getCustomer(this.id).subscribe(
         (response) => {
-          this.userData.setValue({
+          this.customerData.setValue({
             id: response.id,
-            username: response.username,
             email: response.email,
-            first_name: response.first_name,
-            last_name: response.last_name,
-            is_active: response.is_active,
-            avatarUrl: response.profile.image_data,
+            customer_name: response.customer_name,
+            avatarUrl: response.image_data,
             password: "*****************",
             confirmPassword: "*****************",
-            department: response.profile.department,
-            designation: response.profile.designation,
-            contact_number: response.profile.contact_number,
-            role_id: response.role_id
+            contact_number: response.contact_number,
+            login_enabled: response.login_enabled,
+            is_active: response.is_active,
+            username: response.username,
           });
-          this.avatarUrl = response.profile.image_data;
+          this.avatarUrl = response.image_data;
         }
       );
     }
-    
-    this.userService.getUserOptions().subscribe(
-      (response) => {
-        this.roleOptions = response.role_options;
-        if(this.event == 'add'){
-          this.userData.patchValue({
-            role_id: this.roleOptions[0].id
-          });
-        }
-      }
-    );
   }
 
-  saveUser(): void{ 
-    this.userService.saveUser(this.userData.value).subscribe(
+  saveCustomer(): void{ 
+    this.customerService.saveCustomer(this.customerData.value).subscribe(
       (response) => {
         if(response.status == 'success'){
-          this.toastr.success('User data has been saved', 'Success!');
-          this.router.navigate(['user']);
+          this.toastr.success('Customer data has been saved', 'Success!');
+          this.router.navigate(['customer']);
         }
         else{
           this.toastr.error('Something went wrong :(', 'Error!');
@@ -109,8 +91,8 @@ export class UseraddComponent {
         this.avatarUrl = reader.result; 
         console.log(this.avatarUrl)
         var fileData = {'name': file.name, 'data': this.avatarUrl, 'size': file.size, 'type': file.type, 'lastModified': file.lastModified};
-        this.userData.addControl('file', new FormControl(fileData));
-        this.userData.addControl('avatarUrl', new FormControl(this.avatarUrl));
+        this.customerData.addControl('file', new FormControl(fileData));
+        this.customerData.addControl('avatarUrl', new FormControl(this.avatarUrl));
       }
       console.log(file)
     }
@@ -122,5 +104,11 @@ export class UseraddComponent {
 
   goBack(): void{
     this.location.back();
+  }
+
+  public loginToggle(event: any) {
+    this.customerData.patchValue({
+      is_active: event.checked,
+    });
   }
 }

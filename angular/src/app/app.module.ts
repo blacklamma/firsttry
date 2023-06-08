@@ -19,7 +19,11 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatButtonModule} from '@angular/material/button';
 import { UseraddComponent } from './pages/user/useradd.component';
 import {MatIconModule} from '@angular/material/icon';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { MyProfileComponent } from './pages/user/myprofile.component';
+import { CustomerComponent } from './pages/customer/customer.component';
+import { CustomerformComponent } from './pages/customer/customerform.component';
+import { CustomerprofileComponent } from './pages/customer/customerprofile.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +35,9 @@ import { MyProfileComponent } from './pages/user/myprofile.component';
     UserComponent,
     UseraddComponent,
     MyProfileComponent,
+    CustomerComponent,
+    CustomerformComponent,
+    CustomerprofileComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,7 +51,8 @@ import { MyProfileComponent } from './pages/user/myprofile.component';
     MatButtonModule, 
     MatTooltipModule,
     FormsModule,
-    MatIconModule
+    MatIconModule,
+    MatSlideToggleModule
   ],
   providers: [
     AppComponent,

@@ -11,34 +11,34 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="permissions.tickets">
             <a class="nav-link" aria-current="page" href="ticket">Tickets</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="permissions.asset">
             <a class="nav-link" aria-current="page" href="assets">Assets</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="permissions.task">
             <a class="nav-link" aria-current="page" href="tasks">Tasks</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="permissions.report">
             <a class="nav-link" aria-current="page" href="reports">Reports</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="permissions.attendance">
             <a class="nav-link" aria-current="page" href="attendance">Attendance</a>
           </li>
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdown" *ngIf="permissions.userprofile || permissions.customer || permissions.permission">
             <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Users
             </a>
             <ul class="dropdown-menu">
-              <li><a class="nav-link dropdown-item" href="user">Users</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="nav-link dropdown-item" href="customer">Customers</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="nav-link dropdown-item" href="role">Roles</a></li>
+              <li *ngIf="permissions.userprofile"><a class="nav-link dropdown-item" href="user">Users</a></li>
+              <li *ngIf="permissions.userprofile"><hr class="dropdown-divider"></li>
+              <li *ngIf="permissions.customer"><a class="nav-link dropdown-item" href="customer">Customers</a></li>
+              <li *ngIf="permissions.permission"><hr class="dropdown-divider"></li>
+              <li *ngIf="permissions.permission"><a class="nav-link dropdown-item" href="role">Roles</a></li>
             </ul>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="permissions.permission">
             <a class="nav-link" aria-current="page" href="siteconfig">Config</a>
           </li>
           <!-- <li class="nav-item">
@@ -60,7 +60,13 @@
           </li> -->
         </ul>
       </div>
-      <a class="pr-10" href="myprofile">
+      <a class="pr-10" href="myprofile" *ngIf="isStaff">
+        <img *ngIf="!profilePictureData" src="/assets/placeholder-avatar.jpg"
+        class="rounded-circle" alt="example placeholder" style="width: 40px;" />
+        <img *ngIf="profilePictureData" [src]="profilePictureData"
+        class="rounded-circle" alt="example placeholder" style="width: 40px;" />
+      </a>
+      <a class="pr-10" href="custprofile" *ngIf="!isStaff">
         <img *ngIf="!profilePictureData" src="/assets/placeholder-avatar.jpg"
         class="rounded-circle" alt="example placeholder" style="width: 40px;" />
         <img *ngIf="profilePictureData" [src]="profilePictureData"

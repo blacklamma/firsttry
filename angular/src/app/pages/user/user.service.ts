@@ -14,6 +14,9 @@ export class UserService {
   getUser(id: string): Observable<any> {
     return this.http.get('http://localhost:8000/user/users/' + id);
   }
+  getUserOptions(): Observable<any> {
+    return this.http.get('http://localhost:8000/user/users/options');
+  }
   saveUser(data: any): Observable<any> {
     return this.http.post('http://localhost:8000/user/users/', data);
   }

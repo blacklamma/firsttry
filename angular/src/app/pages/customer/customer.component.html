@@ -1,0 +1,55 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+    <h3 class="pl-10">
+        List of Customers
+        <button matTooltip="Add Customer" matTooltipPosition="below" class="btn btn-outline-success float-right" (click)="addCustomer()">
+            <i class="fa fa-plus"></i>
+        </button>
+    </h3>
+            
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Login Enabled</th>
+          <th>Username</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="
+            let post of customerData
+              | paginate
+                : {
+                    itemsPerPage: tableSize,
+                    currentPage: page,
+                    totalItems: count
+                  };
+            let i = index
+          "
+        >
+          <th scope="row"><a href="customer/edit/{{post.id}}" class="grid-nav"><span class="">{{ post.email }}</span></a></th>
+          <td>{{ post.first_name }}</td>
+          <td>{{ post.last_name }}</td>
+          <td>{{ post.login_enabled_str }}</td>
+          <td>{{ post.username }}</td>
+          <td>
+            <mat-icon matTooltip="Delete Customer" matTooltipPosition="below" aria-hidden="false" aria-label="Delete Customer" 
+            class="text-danger fs-20 p-t-2" fontIcon="delete" (click)="deleteCustomerConfirm(post)"></mat-icon>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-center">
+      <pagination-controls
+        previousLabel="Prev"
+        nextLabel="Next"
+        (pageChange)="onTableDataChange($event)"
+      >
+      </pagination-controls>
+    </div>
+  </div>

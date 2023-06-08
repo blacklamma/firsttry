@@ -13,6 +13,10 @@ a.nav-link:hover{
 }
 .container{
   padding-top:80px;
+  margin-left: 10px !important;
+  margin-right: 10px !important;
+  max-width: initial !important;
+  width: 98% !important;
 }
 body{
     font-family: 'Ubuntu', sans-serif;
@@ -76,4 +80,13 @@ body{
 }
 .p-t-2{
   padding-top: 2px;
+}
+.padding-5-imp{
+  padding: 5px !important;
+}
+.p-l-10-imp{
+  padding-left: 10px !important;
+}
+.pl-25-imp{
+  padding-left: 25px !important;
 }

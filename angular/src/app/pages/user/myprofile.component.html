@@ -12,7 +12,7 @@
                             class="rounded-circle" alt="example placeholder" style="width: 180px;" />
                         </div>
                         <div class="d-flex justify-content-center">
-                            <div class="btn btn-outline-primary btn-rounded">
+                            <div class="btn btn-outline-success btn-rounded">
                                 <label class="form-label m-1" for="customFile2">Choose Avatar</label>
                                 <input type="file" class="form-control d-none" id="customFile2" (change)="onAvatarSelected($event)"/>
                             </div>
@@ -20,11 +20,11 @@
                     </div>
                 </div>
                 <div class="col-9">
-                    <div class="mb-3 row row-cols-3">
+                    <div class="mb-3 row row-cols-4">
                         <div class="col">
                             <label for="firstName" class="form-label">First Name</label>
                             <input type="text" id="firstName" class="form-control" placeholder="First Name" formControlName="first_name" required>
-                            <div *ngIf="userData.controls['first_name'].invalid && (userData.controls['first_name'].dirty || userData.controls['first_name'].touched)" class="alert alert-danger">
+                            <div *ngIf="userData.controls['first_name'].invalid && (userData.controls['first_name'].dirty || userData.controls['first_name'].touched)" class="alert alert-danger padding-5-imp p-l-10-imp">
                                 <div *ngIf="userData.hasError('required', 'first_name')">
                                     First Name is required.
                                 </div>
@@ -34,18 +34,10 @@
                             <label for="lastName" class="form-label">Last Name</label>
                             <input type="text" id="lastName" class="form-control" placeholder="Last Name" formControlName="last_name">
                         </div>
-                        <div class="col pt-35 pl-75-imp">
-                            <input class="form-check-input" type="checkbox" id="activeCheck" formControlName="is_active">
-                            <label class="form-check-label pl-10" for="activeCheck">
-                                Active
-                            </label>
-                        </div>
-                    </div>
-                    <div class="mb-3 row row-cols-3">
                         <div class="col">
                             <label for="exampleInputEmail1" class="form-label">Email</label>
                             <input type="email" class="form-control" id="exampleInputEmail1" email="true" aria-describedby="emailHelp" formControlName="email" required>
-                            <div *ngIf="userData.controls['email'].invalid && (userData.controls['email'].dirty || userData.controls['email'].touched)" class="alert alert-danger">
+                            <div *ngIf="userData.controls['email'].invalid && (userData.controls['email'].dirty || userData.controls['email'].touched)" class="alert alert-danger padding-5-imp p-l-10-imp">
                                 <div *ngIf="userData.hasError('required', 'email')">
                                     Email is required.
                                 </div>
@@ -56,8 +48,8 @@
                         </div>
                         <div class="col">
                             <label for="userName" class="form-label">Username</label>
-                            <input type="text" id="userName" class="form-control" placeholder="Username" formControlName="username" minlength="3" required>
-                            <div *ngIf="userData.controls['username'].invalid && (userData.controls['username'].dirty || userData.controls['username'].touched)" class="alert alert-danger">
+                            <input type="text" id="userName" class="form-control" placeholder="Username" formControlName="username" minlength="3" required readonly>
+                            <div *ngIf="userData.controls['username'].invalid && (userData.controls['username'].dirty || userData.controls['username'].touched)" class="alert alert-danger padding-5-imp p-l-10-imp">
                                 <div *ngIf="userData.hasError('required', 'username')">
                                     Username is required.
                                 </div>
@@ -67,11 +59,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="mb-3 row row-cols-3">
+                    <div class="mb-3 row row-cols-4">
                         <div class="col">
                             <label for="password" class="form-label">Password</label>
                             <input type="password" class="form-control" id="password" formControlName="password" required>
-                            <div *ngIf="userData.controls['password'].errors" class="alert alert-danger">
+                            <div *ngIf="userData.controls['password'].errors" class="alert alert-danger padding-5-imp p-l-10-imp">
                                 <div *ngIf="userData.hasError('required', 'password')">
                                     Password is required.
                                 </div>
@@ -80,7 +72,7 @@
                         <div class="col">
                             <label for="confirmPassword" class="form-label">Confirm Password</label>
                             <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword" required>
-                            <div *ngIf="userData.controls['confirmPassword'].errors" class="alert alert-danger">
+                            <div *ngIf="userData.controls['confirmPassword'].errors" class="alert alert-danger padding-5-imp p-l-10-imp">
                                 <div *ngIf="userData.hasError('required', 'confirmPassword')">
                                     Confirm Password is required.
                                 </div>
@@ -90,7 +82,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="mb-3 row row-cols-3">
+                    <div class="mb-3 row row-cols-4">
                         <div class="col">
                             <label for="department" class="form-label">Department</label>
                             <input type="text" class="form-control" id="department" formControlName="department">
@@ -102,7 +94,7 @@
                         <div class="col">
                             <label for="contact_number" class="form-label">Contact Number</label>
                             <input type="text" class="form-control" id="contact_number" formControlName="contact_number" pattern="[- +()0-9]{10,18}">
-                            <div *ngIf="userData.controls['contact_number'].errors" class="alert alert-danger">
+                            <div *ngIf="userData.controls['contact_number'].errors" class="alert alert-danger padding-5-imp p-l-10-imp">
                                 <div *ngIf="userData.hasError('pattern', 'contact_number')">
                                     Contact Number is invalid.
                                 </div>
@@ -114,7 +106,7 @@
         </fieldset>
         <div class="footer-buttons">
             <button type="button" (click)="goBack()" class="btn btn-outline-secondary float-right ml-5">Cancel</button>
-            <button type="submit" class="btn btn-outline-primary float-right" [disabled]="!userData.valid">Save</button>
+            <button type="submit" class="btn btn-outline-success float-right" [disabled]="!userData.valid">Save</button>
         </div>
     </form>
 </div>

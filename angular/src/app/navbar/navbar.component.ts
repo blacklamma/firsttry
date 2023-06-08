@@ -12,6 +12,9 @@ import { ToastrService } from 'ngx-toastr';
 export class NavbarComponent {
 
   profilePictureData = '';
+  isStaff = false;
+  permissions : any;
+  
   public logOutForm !: FormGroup;
   constructor(private formBuilder : FormBuilder, private http: HttpClient, private router: Router, private toastr: ToastrService){}
   ngOnInit(): void{
@@ -20,6 +23,8 @@ export class NavbarComponent {
       password: ['']
     });
     this.profilePictureData = localStorage.getItem('avatar') || '';
+    this.isStaff = this.getBoolean(localStorage.getItem('isStaff'));
+    this.permissions = JSON.parse(localStorage.getItem('permissions') || "{}");
   }
   logOut(){
     this.http.post('http://localhost:8000/user/logout/', {username: localStorage.getItem('username')}, {responseType: 'text'})
@@ -32,6 +37,20 @@ export class NavbarComponent {
         this.router.navigate(['']);
       }
     )
+  }
+
+  private getBoolean(value: any){
+     switch(value){
+          case true:
+          case "true":
+          case 1:
+          case "1":
+          case "on":
+          case "yes":
+              return true;
+          default: 
+              return false;
+      }
   }
 
 }
