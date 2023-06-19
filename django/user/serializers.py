@@ -1,7 +1,7 @@
 import base64
 from backend.config import DATE_TIME_FORMAT
 from .models import *
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 
 
@@ -96,3 +96,10 @@ class CustomerDataSerializer(serializers.ModelSerializer):
             return 'data:image/jpeg;base64,' + b64str.decode('utf-8')
         except Exception as err:
             return ''
+
+
+class RoleListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Group
+        fields = ('id', 'name')

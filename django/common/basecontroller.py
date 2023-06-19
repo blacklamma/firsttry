@@ -41,13 +41,6 @@ class BaseController():
             return ''
 
     def get_file_attachment_path(self, attachment_dir):
-        """
-        :param organization_id: Every Organization will have seperate repository to store the file identified by this id
-        :param ref_id: To store the seperate document for each Reference ID of the module
-        :param module_name: Seperate path for each Module
-        module_name --> Organization ID --> ref_id --> Zipfile & File name
-        :return: It will return the file patch
-        """
         try:
             file_path = str(FILE_PATH) + os.sep + "files" + \
                 os.sep + attachment_dir
@@ -55,4 +48,21 @@ class BaseController():
                 os.makedirs(file_path)
             return file_path
         except Exception as e:
+            return ''
+
+    def get_ids_from_obj(self, obj, key='id'):
+        try:
+            return [iter.get(key) for iter in obj]
+        except Exception as e:
+            return []
+
+    def get_text_editor_text(self, text_obj):
+        try:
+            content = text_obj.get('content')
+            if content:
+                inner_content = content[0].get('content')
+                if inner_content:
+                    return inner_content[0].get('text')
+            return ''
+        except Exception as err:
             return ''

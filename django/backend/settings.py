@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
+import logging
 import datetime
 from pathlib import Path
 
@@ -26,7 +27,9 @@ SECRET_KEY = 'django-insecure-%8xrjm6^mu%a1mzz1&e1+59_ontspo_z+$!*rutfsi&9jzco+x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 CORS_ORIGIN_ALLOW_ALL = DEBUG
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',]
 
 
 # Application definition
@@ -47,6 +50,7 @@ INSTALLED_APPS = [
     'report.apps.ReportConfig',
     'attendance.apps.AttendanceConfig',
     'common.apps.CommonConfig',
+    'huey.contrib.djhuey',
 ]
 if DEBUG:
     INSTALLED_APPS += ('corsheaders', )
@@ -132,8 +136,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(days=1),
-    "REFRESH_TOKEN_LIFETIME": datetime.timedelta(days=1),
+    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(hours=1),
+    "REFRESH_TOKEN_LIFETIME": datetime.timedelta(hours=1),
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": False,
     "UPDATE_LAST_LOGIN": False,
@@ -180,3 +184,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+HUEY = {
+    "immediate": False
+}

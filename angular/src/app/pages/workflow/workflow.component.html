@@ -1,0 +1,49 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+    <h3 class="pl-10">
+        List of Workflows
+        <button matTooltip="Add Workflow" matTooltipPosition="below" class="btn btn-outline-success float-right" (click)="addWorkflow()">
+            <i class="fa fa-plus"></i>
+        </button>
+    </h3>
+            
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Owner</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="
+            let post of wfData
+              | paginate
+                : {
+                    itemsPerPage: tableSize,
+                    currentPage: page,
+                    totalItems: count
+                  };
+            let i = index
+          "
+        >
+          <th scope="row"><a href="workflow/edit/{{post.id}}" class="grid-nav"><span class="">{{ post.name }}</span></a></th>
+          <td>{{ post.owners }}</td>
+          <td>
+            <mat-icon matTooltip="Delete Workflow" matTooltipPosition="below" aria-hidden="false" aria-label="Delete Workflow" 
+            class="text-danger fs-20 p-t-2" fontIcon="delete" (click)="deleteWfConfirm(post)"></mat-icon>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-center">
+      <pagination-controls
+        previousLabel="Prev"
+        nextLabel="Next"
+        (pageChange)="onTableDataChange($event)"
+      >
+      </pagination-controls>
+    </div>
+  </div>

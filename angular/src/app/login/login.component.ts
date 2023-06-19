@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router'
 import conf_data from "./conf.json";
+import { GlobalComponent } from '../global-component';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,7 @@ export class LoginComponent implements OnInit {
     })
   }
   logIn(){
-    this.http.post('http://localhost:8000/user/login/', this.loginForm.value)
+    this.http.post(GlobalComponent.appUrl + 'user/login/', this.loginForm.value)
     .subscribe(
       (resData: any) => {
         console.log(resData)
@@ -32,7 +33,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('isStaff', resData.is_staff);
         localStorage.setItem('permissions', JSON.stringify(resData.permissions));
         
-        this.http.post('http://localhost:8000/api/token/', this.loginForm.value)
+        this.http.post(GlobalComponent.appUrl + 'api/token/', this.loginForm.value)
         .subscribe(
           (data: any) => {
             localStorage.setItem('username', this.loginForm.value.username);

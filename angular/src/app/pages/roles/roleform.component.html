@@ -1,0 +1,35 @@
+<app-navbar></app-navbar>
+<div class="container">
+    <form>
+        <h3 class="pl-10 m-b-15">
+            {{role.name}}
+        </h3>
+        <div class="row row-cols-4 p-t-b-15 border-black border-top-black m-l-r-10-imp">
+            <h5>
+                Permissions
+            </h5>
+        </div>
+        <div>
+            <div class="row row-cols-4 p-t-b-15 border-black m-l-r-10-imp" *ngFor="let module of permissions">
+                <div class="col">
+                    {{module.name}}
+                </div>
+                <div class="col-9">
+                    <div class="row row-cols-6">
+                        <div class="col" *ngFor="let perm of module.perms">
+                            {{perm.name}}<mat-slide-toggle class="p-l-10-imp" color="primary" [(ngModel)]="perm.value" [ngModelOptions]="{standalone: true}" (change)="updateInfo(perm.name, module.name, $event)"></mat-slide-toggle>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-buttons">
+            <button type="button" (click)="goBack()" class="btn btn-outline-secondary float-right ml-5">Cancel</button>
+            <button type="button" (click)="saveRole()" class="btn btn-outline-success float-right">Save</button>
+        </div>
+    </form>
+</div>
+<br>
+<br>
+<br>
+<br>

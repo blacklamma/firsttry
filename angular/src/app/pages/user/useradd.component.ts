@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from './user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -11,7 +11,7 @@ import { ConfirmPasswordValidator } from '../../confirm-password.validator';
   templateUrl: './useradd.component.html',
   styleUrls: ['./user.component.css']
 })
-export class UseraddComponent {
+export class UseraddComponent implements OnInit {
   
   id: any;
 	avatarUrl: any;

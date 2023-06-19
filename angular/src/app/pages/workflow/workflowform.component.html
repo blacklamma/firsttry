@@ -1,0 +1,283 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <div>
+    <form [formGroup]="wfData" role="saveWorkflow" (ngSubmit)="saveWorkflow()">
+      <div class="row mb-3 row-cols-4">
+        <div class="col-3">
+          <label for="wfName" class="form-label">Name</label>
+          <input type="text" id="wfName" class="form-control" placeholder="Name" formControlName="name" required>
+          <div *ngIf="wfData.controls['name'].invalid && (wfData.controls['name'].dirty || wfData.controls['name'].touched)" class="alert alert-danger padding-5-imp p-l-10-imp">
+              <div *ngIf="wfData.hasError('required', 'name')">
+                  Name is required.
+              </div>
+          </div>
+        </div>
+        <div class="col-8">
+          <label class="form-label" for="ownerSelectAction">Owners</label>
+           <ng-select id="ownerSelectAction" [items]="ownerOptions"  
+               bindLabel="name"  
+               placeholder="Select Owners"  
+               appendTo="body"  
+               [multiple]="true"  
+               formControlName="owners">  
+            </ng-select>
+        </div>
+        <div class="col-1">
+          <button type="submit" class="btn btn-outline-success float-right" [disabled]="!wfData.valid">Save</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="row" *ngIf="event=='edit'">
+    <ul class="nav nav-tabs mb-3" id="tabs-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="tabs-state-tab" data-bs-toggle="tab" data-bs-target="#tabs-state" type="button" role="tab" aria-controls="tabs-state" aria-selected="true" (click)="changeTab(0)">Status</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="tabs-rule-tab" data-bs-toggle="tab" data-bs-target="#tabs-rule" type="button" role="tab" aria-controls="tabs-rule" aria-selected="false" (click)="changeTab(1)">Rules</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="tabs-notif-tab" data-bs-toggle="tab" data-bs-target="#tabs-notif" type="button" role="tab" aria-controls="tabs-notif" aria-selected="false" (click)="changeTab(2)">Notification</button>
+        </li>
+      </ul>
+      <div class="tab-content" id="tabs-tabContent">
+        <!-- status tab -->
+        <div class="tab-pane fade show active" id="tabs-state" role="tabpanel" aria-labelledby="tabs-state-tab" tabindex="0">
+          
+          <button matTooltip="Add Status" matTooltipPosition="below" class="btn btn-outline-success float-right mb-2" (click)="addStatus()">
+            <i class="fa fa-plus"></i>
+          </button>
+          <table class="accordion" id="state-status">
+            <tr>
+              <th style="width:30%">State</th>
+              <th style="width:30%">Status</th>
+              <th style="width:30%">Stage</th>
+              <th style="width:10%"></th>
+            </tr>
+            <ng-container *ngFor="let statusData of statusDataList;let i = index;">
+              <tr>
+                <td>{{statusData.stateName}}</td>
+                <td>{{statusData.name}}</td>
+                <td>{{statusData.stage}}</td>
+                <td>
+                  <button class="btn btn-outline-primary btn-block" type="button"
+                      data-bs-toggle="collapse"
+                      [attr.data-bs-target]="'#collapse'+i"
+                      [attr.aria-expanded]="false" 
+                      [attr.aria-controls]="'collapse'+i">
+                      <mat-icon matTooltip="Edit" matTooltipPosition="below" aria-hidden="false" aria-label="Edit" 
+                      class="p-t-2" fontIcon="edit"></mat-icon>
+                  </button>
+                </td>
+              </tr>
+              <tr [id]="'collapse'+i" class="accordion-collapse collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <td colspan="3">
+                  <div class="row row-cols-3">
+                    <div class="col">
+                      <select class="form-control" name="stateSelect" [id]="'stateSelectAction'+i" [(ngModel)]="statusData.stateId">
+                        <option *ngFor="let op of stateOptions" [value]="op.id">>
+                            {{op.name}}
+                        </option> 
+                      </select>
+                    </div>
+                    <div class="col">
+                      <input type="text"[id]="'status'+i" class="form-control" placeholder="Status" [(ngModel)]="statusData.status_temp">
+                    </div>
+                    <div class="col">
+                      <input type="text"[id]="'stage'+i" class="form-control" placeholder="Stage" [(ngModel)]="statusData.stage_temp">
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <button type="submit" class="btn btn-outline-success btn-block" (click)="saveStatus(statusData, i)">
+                    <mat-icon matTooltip="Save" matTooltipPosition="below" aria-hidden="false" aria-label="Edit" 
+                    class="p-t-2" fontIcon="save"></mat-icon></button>
+                </td>
+              </tr>
+            </ng-container>
+          </table>
+        </div>
+
+
+
+
+        <!-- rule tab -->
+        <div class="tab-pane fade padding-l-r-20" id="tabs-rule" role="tabpanel" aria-labelledby="tabs-rule-tab" tabindex="1">
+          
+          <button matTooltip="Add Rule" matTooltipPosition="below" class="btn btn-outline-success float-right mb-2" (click)="addRule()">
+            <i class="fa fa-plus"></i>
+          </button>
+          <table class="accordion" id="rule-table">
+            <tr>
+              <th style="width:20%">Name</th>
+              <th style="width:70%">Rule</th>
+              <th style="width:10%"></th>
+            </tr>
+            <ng-container *ngFor="let ruleData of ruleDataList;let i = index;">
+              <tr>
+                <td>{{ruleData.name}}</td>
+                <td>If <span *ngIf="ruleData.is_stage_rule">Stage = {{ruleData.if_stage}}</span>
+                  <span *ngIf="!ruleData.is_stage_rule">State = {{ruleData.ifStateName}} and Status = {{ruleData.ifStatusName}}</span>, Then State = {{ruleData.thenStateName}} and Status = {{ruleData.thenStatusName}}</td>
+                <td>
+                  <button class="btn btn-outline-primary btn-block" type="button"
+                      data-bs-toggle="collapse"
+                      [attr.data-bs-target]="'#ruleCollapse'+i"
+                      [attr.aria-expanded]="false" 
+                      [attr.aria-controls]="'ruleCollapse'+i">
+                      <mat-icon matTooltip="Edit" matTooltipPosition="below" aria-hidden="false" aria-label="Edit" 
+                      class="p-t-2" fontIcon="edit"></mat-icon>
+                  </button>
+                </td>
+              </tr>
+              <tr [id]="'ruleCollapse'+i" class="accordion-collapse collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <td colspan="2">
+                  <div class="row row-cols-3 mb-3">
+                    <div class="col">
+                      <input type="text"[id]="'ruleName'+i" class="form-control" placeholder="Name" [(ngModel)]="ruleData.name">
+                    </div>
+                    <div class="col p-t-5 pl-25-imp">
+                      <mat-slide-toggle color="primary" [(ngModel)]="ruleData.is_stage_rule">Stage Rule</mat-slide-toggle>
+                    </div>
+                  </div>
+                  <h6 class="pl-10 m-b-15">
+                      If Condition
+                  </h6>
+                  <div>
+                    <div class="row row-cols-3 mb-3">
+                      <div class="col" *ngIf="ruleData.is_stage_rule">
+                        <input type="text"[id]="'ifStage'+i" class="form-control" placeholder="Stage" [(ngModel)]="ruleData.if_stage">
+                      </div>
+                      <div class="col" *ngIf="!ruleData.is_stage_rule">
+                        <select class="form-control" name="ifStateSelect" [id]="'ifState'+i" [(ngModel)]="ruleData.if_state" (change)="changeIfState(ruleData.if_state, i)">
+                          <option *ngFor="let op of stateOptions" [value]="op.id">>
+                              {{op.name}}
+                          </option> 
+                        </select>
+                      </div>
+                      <div class="col" *ngIf="!ruleData.is_stage_rule">
+                        <select class="form-control" name="ifStatusSelect" [id]="'ifStatus'+i" [(ngModel)]="ruleData.if_status" (change)="changeIfStatus(ruleData.if_status, i)">
+                          <option *ngFor="let op of ruleData.ifStatusOptions" [value]="op.id">>
+                              {{op.name}}
+                          </option> 
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <h6 class="pl-10 m-b-15">
+                      Then Condition
+                  </h6>
+                  <div>
+                    <div class="row row-cols-3 mb-3">
+                      <div class="col">
+                        <select class="form-control" name="thenStateSelect" [id]="'thenState'+i" [(ngModel)]="ruleData.then_state" (change)="changeThenState(ruleData.then_state, i)">
+                          <option *ngFor="let op of stateOptions" [value]="op.id">>
+                              {{op.name}}
+                          </option> 
+                        </select>
+                      </div>
+                      <div class="col">
+                        <select class="form-control" name="thenStatusSelect" [id]="'thenStatus'+i" [(ngModel)]="ruleData.then_status" (change)="changeThenStatus(ruleData.then_status, i)">
+                          <option *ngFor="let op of ruleData.thenStatusOptions" [value]="op.id">>
+                              {{op.name}}
+                          </option> 
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <button type="submit" class="btn btn-outline-success btn-block" (click)="saveRule(ruleData, i)">
+                    <mat-icon matTooltip="Save" matTooltipPosition="below" aria-hidden="false" aria-label="Edit" 
+                    class="p-t-2" fontIcon="save"></mat-icon></button>
+                </td>
+              </tr>
+            </ng-container>
+          </table>
+        </div>
+
+
+
+        
+        <!-- notif tab -->
+        <div class="tab-pane fade" id="tabs-notif" role="tabpanel" aria-labelledby="tabs-notif-tab" tabindex="2">
+          
+          <button matTooltip="Add Notif" matTooltipPosition="below" class="btn btn-outline-success float-right mb-2" (click)="addNotif()">
+            <i class="fa fa-plus"></i>
+          </button>
+          <table class="accordion" id="rule-table">
+            <tr>
+              <th style="width:40%">Condition</th>
+              <th style="width:50%">Subject</th>
+              <th style="width:10%"></th>
+            </tr>
+            <ng-container *ngFor="let notifData of notifDataList;let i = index;">
+              <tr>
+                <td>If <span *ngIf="notifData.is_stage_notification">Stage = {{notifData.stage}}</span>
+                  <span *ngIf="!notifData.is_stage_notification">State = {{notifData.stateName}} and Status = {{notifData.statusName}}</span></td>
+                <td>{{notifData.subject}}</td>
+                <td>
+                  <button class="btn btn-outline-primary btn-block" type="button"
+                      data-bs-toggle="collapse"
+                      [attr.data-bs-target]="'#notifCollapse'+i"
+                      [attr.aria-expanded]="false" 
+                      [attr.aria-controls]="'notifCollapse'+i">
+                      <mat-icon matTooltip="Edit" matTooltipPosition="below" aria-hidden="false" aria-label="Edit" 
+                      class="p-t-2" fontIcon="edit"></mat-icon>
+                  </button>
+                </td>
+              </tr>
+              <tr [id]="'notifCollapse'+i" class="accordion-collapse collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <td colspan="2">
+                  <div class="row row-cols-3 mb-3">
+                    <div class="col p-t-5 pl-25-imp">
+                      <mat-slide-toggle color="primary" [(ngModel)]="notifData.is_stage_notification">Stage Notification</mat-slide-toggle>
+                    </div>
+                  </div>
+                    
+                  <div class="row row-cols-3 mb-3">
+                    <div class="col" *ngIf="notifData.is_stage_notification">
+                      <input type="text"[id]="'ifStage'+i" class="form-control" placeholder="Stage" [(ngModel)]="notifData.stage">
+                    </div>
+                    <div class="col" *ngIf="!notifData.is_stage_notification">
+                      <select class="form-control" name="stateSelect" [id]="'state'+i" [(ngModel)]="notifData.state" (change)="changeNotifState(notifData.state, i)">
+                        <option *ngFor="let op of stateOptions" [value]="op.id">>
+                            {{op.name}}
+                        </option> 
+                      </select>
+                    </div>
+                    <div class="col" *ngIf="!notifData.is_stage_notification">
+                      <select class="form-control" name="statusSelect" [id]="'status'+i" [(ngModel)]="notifData.status" (change)="changeNotifStatus(notifData.status, i)">
+                        <option *ngFor="let op of notifData.statusOptions" [value]="op.id">>
+                            {{op.name}}
+                        </option> 
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row row-cols-3 mb-3">
+                    <div class="col-10">
+                      <label class="form-label">Subject</label>
+                      <input type="text" [id]="'subject'+i" class="form-control" placeholder="Subject" [(ngModel)]="notifData.subject">
+                    </div>
+                  </div>
+                  <div class="row row-cols-3 mb-3">
+                    <div class="col-10">
+                      <label class="form-label">Body</label>
+                      <ngx-editor-menu [editor]="editor"> </ngx-editor-menu>
+                      <ngx-editor [editor]="editor" [(ngModel)]="notifData.body" [disabled]="false" [placeholder]="'Enter Mail Body here...'"></ngx-editor>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <button type="submit" class="btn btn-outline-success btn-block" (click)="saveNotif(notifData, i)">
+                    <mat-icon matTooltip="Save" matTooltipPosition="below" aria-hidden="false" aria-label="Save" 
+                    class="p-t-2" fontIcon="save"></mat-icon></button>
+                </td>
+              </tr>
+            </ng-container>
+          </table>
+        </div>
+
+
+      </div>
+  </div>
+</div>

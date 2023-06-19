@@ -1,0 +1,72 @@
+
+#state-status {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+  
+#state-status td, #state-status th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#state-status tr:nth-child(even){background-color: #f2f2f2;}
+
+#state-status tr:hover {background-color: #ddd;}
+
+#state-status th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+}
+#rule-table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+  
+#rule-table td, #rule-table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#rule-table tr:nth-child(even){background-color: #f2f2f2;}
+
+#rule-table tr:hover {background-color: #ddd;}
+
+#rule-table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+}
+#notif-table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+  
+#notif-table td, #notif-table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#notif-table tr:nth-child(even){background-color: #f2f2f2;}
+
+#notif-table tr:hover {background-color: #ddd;}
+
+#notif-table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+}
+/* Styling of the collapsible row */
+#state-status td.collapse-row {
+    border-style: none;
+    padding: 0;
+}

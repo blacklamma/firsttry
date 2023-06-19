@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { GlobalComponent } from '../../global-component';
 
 @Injectable({
   providedIn: 'root'
@@ -8,15 +9,15 @@ import { Observable } from 'rxjs';
 export class CustomerService {
   constructor(private http: HttpClient) {}
   getCustomers(): Observable<any> {
-    return this.http.get('http://localhost:8000/user/customers/');
+    return this.http.get(GlobalComponent.appUrl + 'user/customers/');
   }
   getCustomer(id: string): Observable<any> {
-    return this.http.get('http://localhost:8000/user/customers/' + id);
+    return this.http.get(GlobalComponent.appUrl + 'user/customers/' + id);
   }
   saveCustomer(data: any): Observable<any> {
-    return this.http.post('http://localhost:8000/user/customers/', data);
+    return this.http.post(GlobalComponent.appUrl + 'user/customers/', data);
   }
   deleteCustomer(id: string): Observable<any> {
-    return this.http.delete('http://localhost:8000/user/customers/' + id);
+    return this.http.delete(GlobalComponent.appUrl + 'user/customers/' + id);
   }
 }

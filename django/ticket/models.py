@@ -42,3 +42,7 @@ class Tickets(models.Model):
     person_name = models.CharField(max_length=255, blank=True, null=True)
     person_email = models.TextField(blank=True, null=True)
     person_phone = models.TextField(blank=True, null=True)
+
+    class Meta:
+        default_permissions = ('view', 'create', 'change', 'delete')
+        db_table = 'tbl_tickets'

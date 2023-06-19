@@ -1,0 +1,169 @@
+<app-navbar></app-navbar>
+<div class="container">
+    <ul class="nav nav-tabs mb-3" id="tabs-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="tabs-outconf-tab" data-bs-toggle="tab" data-bs-target="#tabs-outconf" type="button" role="tab" aria-controls="tabs-outconf" aria-selected="true" (click)="changeTab(0)">Outgoing Config</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="tabs-outlist-tab" data-bs-toggle="tab" data-bs-target="#tabs-outlist" type="button" role="tab" aria-controls="tabs-outlist" aria-selected="false" (click)="changeTab(1)">Outgoing List</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="tabs-inconf-tab" data-bs-toggle="tab" data-bs-target="#tabs-inconf" type="button" role="tab" aria-controls="tabs-inconf" aria-selected="false" (click)="changeTab(2)">Incoming Config</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="tabs-inlist-tab" data-bs-toggle="tab" data-bs-target="#tabs-inlist" type="button" role="tab" aria-controls="tabs-inlist" aria-selected="false" (click)="changeTab(3)">Incoming List</button>
+        </li>
+      </ul>
+      <div class="tab-content" id="tabs-tabContent">
+        <div class="tab-pane fade show active" id="tabs-outconf" role="tabpanel" aria-labelledby="tabs-outconf-tab" tabindex="0">
+          
+          <div class="mb-3 row row-cols-3 padding-l-r-20">
+            <div class="col">
+                <label for="outName" class="form-label">Host Name</label>
+                <input type="text" id="outName" class="form-control" placeholder="Name" [(ngModel)]="outgoingEmailData.host_name">
+            </div>
+            <div class="col">
+                <label for="outUsername" class="form-label">Host Username</label>
+                <input type="text" id="outUsername" class="form-control" placeholder="Username" [(ngModel)]="outgoingEmailData.host_username">
+            </div>
+            <div class="col">
+                <label for="outPassword" class="form-label">Host Password</label>
+                <input type="password" class="form-control" id="outPassword" [(ngModel)]="outgoingEmailData.host_password">
+            </div>
+            <div class="col">
+                <label for="senderEmail" class="form-label">Sender Email</label>
+                <input type="email" class="form-control" id="senderEmail" email="true" aria-describedby="senderEmail" [(ngModel)]="outgoingEmailData.host_email">
+            </div>
+            <div class="col">
+                <label for="outPort" class="form-label">Host Port</label>
+                <input type="number" id="outPort" class="form-control" placeholder="Port" [(ngModel)]="outgoingEmailData.host_port" minlength="1">
+            </div>
+          </div>
+        </div>
+
+
+
+
+        <!-- outgoing email list tab -->
+        <div class="tab-pane fade padding-l-r-20" id="tabs-outlist" role="tabpanel" aria-labelledby="tabs-outlist-tab" tabindex="1">
+          <h3 class="pl-10">
+            List of Emails
+          </h3>
+                
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Status</th>
+                <th>To</th>
+                <th>Subject</th>
+                <th>Content</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let post of outEmailData
+                    | paginate
+                      : {
+                          itemsPerPage: tableSize,
+                          currentPage: page,
+                          totalItems: count
+                        };
+                  let i = index
+                "
+              >
+                <td>{{ post.status }}</td>
+                <td>{{ post.to_address }}</td>
+                <td>{{ post.subject }}</td>
+                <td>{{ post.content }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="d-flex justify-content-center">
+            <pagination-controls
+              previousLabel="Prev"
+              nextLabel="Next"
+              (pageChange)="onTableDataChange($event)"
+            >
+            </pagination-controls>
+          </div>
+        </div>
+
+
+
+        
+        <!-- incoming email config tab -->
+        <div class="tab-pane fade" id="tabs-inconf" role="tabpanel" aria-labelledby="tabs-inconf-tab" tabindex="2">
+
+          <div class="mb-3 row row-cols-3 padding-l-r-20">
+            <div class="col">
+                <label for="inServer" class="form-label">Server</label>
+                <input type="text" id="inServer" class="form-control" placeholder="Server" [(ngModel)]="incomingEmailData.email_server">
+            </div>
+            <div class="col">
+                <label for="inPort" class="form-label">Host Port</label>
+                <input type="number" id="inPort" class="form-control" placeholder="Port" [(ngModel)]="incomingEmailData.smtp_host_port" minlength="1">
+            </div>
+            <div class="col">
+                <label for="inEmail" class="form-label">Sender Email</label>
+                <input type="email" class="form-control" id="inEmail" email="true" aria-describedby="inEmail" [(ngModel)]="incomingEmailData.email_id">
+            </div>
+            <div class="col">
+                <label for="inPassword" class="form-label">Host Password</label>
+                <input type="password" class="form-control" id="inPassword" [(ngModel)]="incomingEmailData.password">
+            </div>
+          </div>
+        </div>
+
+
+        <!-- incoming email list tab -->
+        <div class="tab-pane fade padding-l-r-20" id="tabs-inlist" role="tabpanel" aria-labelledby="tabs-inlist-tab" tabindex="3">
+          <h3 class="pl-10">
+            List of Emails
+          </h3>
+                
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Status</th>
+                <th>From</th>
+                <th>Subject</th>
+                <th>Content</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let post of inEmailData
+                    | paginate
+                      : {
+                          itemsPerPage: tableSize,
+                          currentPage: page,
+                          totalItems: count
+                        };
+                  let i = index
+                "
+              >
+                <td>{{ post.status }}</td>
+                <td>{{ post.from_address }}</td>
+                <td>{{ post.subject }}</td>
+                <td>{{ post.content }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="d-flex justify-content-center">
+            <pagination-controls
+              previousLabel="Prev"
+              nextLabel="Next"
+              (pageChange)="onInTableDataChange($event)"
+            >
+            </pagination-controls>
+          </div>
+        </div>
+
+
+      </div>
+      <div class="footer-buttons">
+          <button type="button" (click)="saveData()" class="btn btn-outline-success float-right" *ngIf="tabIndex == 0 || tabIndex == 2">Save</button>
+      </div>
+</div>

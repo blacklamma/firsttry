@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router'
 import { FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { GlobalComponent } from '../global-component';
 
 @Component({
   selector: 'app-navbar',
@@ -27,7 +28,7 @@ export class NavbarComponent {
     this.permissions = JSON.parse(localStorage.getItem('permissions') || "{}");
   }
   logOut(){
-    this.http.post('http://localhost:8000/user/logout/', {username: localStorage.getItem('username')}, {responseType: 'text'})
+    this.http.post(GlobalComponent.appUrl + 'user/logout/', {username: localStorage.getItem('username')}, {responseType: 'text'})
     .subscribe(
       (resData) => {
         console.log(resData)

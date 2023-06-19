@@ -30,16 +30,23 @@
             <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Users
             </a>
-            <ul class="dropdown-menu">
-              <li *ngIf="permissions.userprofile"><a class="nav-link dropdown-item" href="user">Users</a></li>
+            <ul class="dropdown-menu width-fit-content">
+              <li *ngIf="permissions.userprofile"><a class="nav-link dropdown-item p-l-10-imp" href="user">Users</a></li>
               <li *ngIf="permissions.userprofile"><hr class="dropdown-divider"></li>
-              <li *ngIf="permissions.customer"><a class="nav-link dropdown-item" href="customer">Customers</a></li>
+              <li *ngIf="permissions.customer"><a class="nav-link dropdown-item p-l-10-imp" href="customer">Customers</a></li>
               <li *ngIf="permissions.permission"><hr class="dropdown-divider"></li>
-              <li *ngIf="permissions.permission"><a class="nav-link dropdown-item" href="role">Roles</a></li>
+              <li *ngIf="permissions.permission"><a class="nav-link dropdown-item p-l-10-imp" href="roles">Roles</a></li>
             </ul>
           </li>
-          <li class="nav-item" *ngIf="permissions.permission">
-            <a class="nav-link" aria-current="page" href="siteconfig">Config</a>
+          <li class="nav-item dropdown" *ngIf="permissions.logentry">
+            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Config
+            </a>
+            <ul class="dropdown-menu width-fit-content">
+              <li *ngIf="permissions.logentry"><a class="nav-link dropdown-item p-l-10-imp" href="workflow">Workflow</a></li>
+              <li *ngIf="permissions.logentry"><hr class="dropdown-divider"></li>
+              <li *ngIf="permissions.logentry"><a class="nav-link dropdown-item p-l-10-imp" href="email">Email</a></li>
+            </ul>
           </li>
           <!-- <li class="nav-item">
             <a class="nav-link" href="#">Link</a>

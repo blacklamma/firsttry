@@ -1,0 +1,6 @@
+<app-navbar></app-navbar>
+<div class="container">
+    <span class="p-2" *ngFor="let role of roles">
+        <button type="button" class="btn btn-outline-danger" (click)="openRoleEdit(role.id)">{{role.name}}</button>
+    </span>
+</div>

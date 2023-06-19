@@ -11,7 +11,7 @@ from django.contrib.auth.models import User, Group
 from common.basecontroller import BaseController
 from backend.permissions import Permissions
 from .models import Customer, UserProfile
-from .serializer import CustomerDataSerializer, CustomerListSerializer, UserListSerializer, UserDataSerializer, UserProfileDataSerializer
+from .serializers import CustomerDataSerializer, CustomerListSerializer, RoleListSerializer, UserListSerializer, UserDataSerializer, UserProfileDataSerializer
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
@@ -295,3 +295,35 @@ class CustomerView(viewsets.ModelViewSet, BaseController):
             return {'status': 'success'}
         except Exception as err:
             return {'status': 'error'}
+
+
+class RoleView(viewsets.ModelViewSet, BaseController):
+    queryset = Group.objects.all()
+    permission_classes = (IsAuthenticated,)
+    perm_obj = Permissions()
+
+    def list(self, request):
+        try:
+            group_obj = Group.objects.all().order_by('id')
+            serializer = RoleListSerializer(group_obj, many=True)
+            user_data = serializer.data
+            final_data = [dict(x) for x in user_data]
+            return JsonResponse(final_data, status=200, safe=False)
+        except Exception as err:
+            return JsonResponse([], status=200)
+
+    def create(self, request):
+        try:
+            post_data = self.get_post_data(request)
+            response = self.perm_obj.update_role_data(
+                post_data.get('role'), post_data.get('updated_roles'))
+            return JsonResponse(response, status=200)
+        except Exception as err:
+            return JsonResponse({'status': 'error'}, status=200)
+
+    def retrieve(self, request, pk):
+        try:
+            return_obj = self.perm_obj.get_perms_of_role(pk)
+            return JsonResponse(dict(return_obj), status=200)
+        except Exception as err:
+            return JsonResponse({}, status=200)
